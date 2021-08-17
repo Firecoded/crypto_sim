@@ -5,6 +5,12 @@
 	@include white-text;
 }
 
+/* Util */
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
 /* Login */
 .login-page-container {
 	height: 100vh;
@@ -12,4 +18,20 @@
 	.login-container {
 		background-color: get-color("background2");
 	}
+}
+
+/* Nav */
+
+.main-nav {
+	height: 80px;
+	display: fixed;
+	background-color: get-color("primary");
+	@include white-text;
+	.fa-sign-out-alt:hover {
+		filter: invert(1);
+	}
+}
+
+.nav-spacer {
+	height: 80px;
 }
