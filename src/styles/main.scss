@@ -1,0 +1,15 @@
+/* General */
+.primary-btn {
+	background-color: get-color("primary-variant");
+	border-color: get-color("primary-variant");
+	@include white-text;
+}
+
+/* Login */
+.login-page-container {
+	height: 100vh;
+	background-color: get-color("background1");
+	.login-container {
+		background-color: get-color("background2");
+	}
+}
