@@ -39,6 +39,7 @@ html,
 	position: fixed;
 	background-color: get-color("primary-variant");
 	@include white-text;
+	z-index: 2;
 	.fa-sign-out-alt:hover {
 		color: get-color("secondary");
 	}
