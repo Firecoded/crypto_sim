@@ -1,0 +1,23 @@
+$color-theme: (
+	"primary": #6200ee,
+	"primary-variant": #3700b3,
+	"secondary": #03dac6,
+	"secondary-variant": #03dac6,
+	// "success": #6ac58a,
+	"danger": #b00020,
+	"background1": #ffffff,
+	"background2": #e0e0e0,
+	"background3": #cecece,
+);
+
+@function get-color($key: "primary") {
+	@return map-get($color-theme, $key);
+}
+
+@mixin black-text {
+	color: black;
+}
+
+@mixin white-text {
+	color: white;
+}

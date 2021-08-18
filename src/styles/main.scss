@@ -1,0 +1,65 @@
+/* General */
+html,
+#root {
+	background-color: get-color("background3");
+}
+
+.recharts-wrapper,
+.recharts-surface {
+	height: inherit !important;
+	width: inherit !important;
+}
+
+.primary-btn {
+	background-color: get-color("primary");
+	border-color: get-color("primary-variant");
+	@include white-text;
+}
+
+/* Util */
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+/* Login */
+
+.login-page-container {
+	height: 100vh;
+	background-color: get-color("background1");
+	.login-container {
+		background-color: get-color("background2");
+	}
+}
+
+/* Nav */
+
+.main-nav {
+	height: 80px;
+	display: fixed;
+	background-color: get-color("primary-variant");
+	@include white-text;
+	.fa-sign-out-alt:hover {
+		color: get-color("secondary");
+	}
+}
+
+.nav-spacer {
+	height: 80px;
+}
+
+/* Widgets */
+
+.balance-widget-container {
+	background-color: get-color("background2");
+}
+
+.send-coin-widget {
+	background-color: get-color("background2");
+}
+
+/* Chart */
+
+.line-chart-container {
+	background-color: get-color("background2");
+}
