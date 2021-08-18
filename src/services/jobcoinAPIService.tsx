@@ -1,4 +1,5 @@
 import axios from "axios";
+import { IAlertConfig } from "../components/Alert";
 
 interface ITransactionParams {
 	fromAddress: string;
@@ -23,6 +24,10 @@ const ADDRESS_API = `${API_BASE}/addresses`;
 const TRANSACTIONS_API = `${API_BASE}/transactions`;
 
 export class jobcoinAPIService {
+	public setAlertConfig: (alertConfig: IAlertConfig) => void;
+	constructor(setAlertConfig: (alertConfig: IAlertConfig) => void) {
+		this.setAlertConfig = setAlertConfig;
+	}
 	public async getAddressInfo(
 		address: string
 	): Promise<IAddressInfoResponse | undefined> {
@@ -30,7 +35,11 @@ export class jobcoinAPIService {
 			const response = await axios.get(`${ADDRESS_API}/${address}`);
 			return response.data as IAddressInfoResponse;
 		} catch (error) {
-			// TODO: add alerting
+			this.setAlertConfig({
+				showAlert: true,
+				alertType: "warning",
+				alertMessage: `Unable to send JobCoin, ${error.response.status}: ${error.response.statusText}`,
+			});
 		}
 	}
 
@@ -39,21 +48,18 @@ export class jobcoinAPIService {
 			const response = await axios.get(TRANSACTIONS_API);
 			return response.data;
 		} catch (error) {
-			// TODO: add alerting
+			this.setAlertConfig({
+				showAlert: true,
+				alertType: "warning",
+				alertMessage: `Unable to send JobCoin, ${error.response.status}: ${error.response.statusText}`,
+			});
 		}
 	}
 
 	public async postTransactions(transactionParams: ITransactionParams) {
 		const config = {
 			headers: {
-				// "Content-Type": "application/json; charset=utf-8",
 				Accept: "application/json",
-				// "Access-Control-Allow-Origin": "*",
-				// "Access-Control-Allow-Methods":
-				// 	"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-				// "Access-Control-Allow-Headers":
-				// 	"Origin, X-Requested-With, Content-Type, Accept",
-				// "Access-Control-Max-Age": "86400",
 			},
 		};
 		try {
@@ -64,7 +70,11 @@ export class jobcoinAPIService {
 			);
 			return response.data;
 		} catch (error) {
-			// TODO: add alerting
+			this.setAlertConfig({
+				showAlert: true,
+				alertType: "warning",
+				alertMessage: `Unable to send JobCoin, ${error.response.status}: ${error.response.statusText}`,
+			});
 		}
 	}
 }
