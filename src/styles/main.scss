@@ -1,6 +1,17 @@
 /* General */
+html,
+#root {
+	background-color: get-color("background3");
+}
+
+.recharts-wrapper,
+.recharts-surface {
+	height: inherit !important;
+	width: inherit !important;
+}
+
 .primary-btn {
-	background-color: get-color("primary-variant");
+	background-color: get-color("primary");
 	border-color: get-color("primary-variant");
 	@include white-text;
 }
@@ -12,6 +23,7 @@
 }
 
 /* Login */
+
 .login-page-container {
 	height: 100vh;
 	background-color: get-color("background1");
@@ -25,13 +37,29 @@
 .main-nav {
 	height: 80px;
 	display: fixed;
-	background-color: get-color("primary");
+	background-color: get-color("primary-variant");
 	@include white-text;
 	.fa-sign-out-alt:hover {
-		filter: invert(1);
+		color: get-color("secondary");
 	}
 }
 
 .nav-spacer {
 	height: 80px;
+}
+
+/* Widgets */
+
+.balance-widget-container {
+	background-color: get-color("background2");
+}
+
+.send-coin-widget {
+	background-color: get-color("background2");
+}
+
+/* Chart */
+
+.line-chart-container {
+	background-color: get-color("background2");
 }

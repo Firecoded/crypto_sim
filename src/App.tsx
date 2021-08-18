@@ -12,21 +12,18 @@ import "./styles/styles.scss";
 
 const JobCoinAPIService = new jobcoinAPIService();
 
-function App() {
+const App = () => {
 	const [isAuthorized, setIsAuthorized] = useState(false);
-	const [userDetails, setUserDetails] = useState({});
+	const [jobCoinAddress, setJobCoinAddress] = useState("");
 
-	const handleLogin = () => {
-		JobCoinAPIService.getAddressInfo("");
+	const handleLogin = (address: string) => {
+		setJobCoinAddress(address);
 		setIsAuthorized(true);
 	};
 	if (isAuthorized === false) {
 		return (
 			<div className="app-container">
-				<Login
-					apiService={JobCoinAPIService}
-					handleLogin={handleLogin}
-				/>
+				<Login handleLogin={handleLogin} />
 			</div>
 		);
 	}
@@ -35,9 +32,10 @@ function App() {
 			<Dashboard
 				apiService={JobCoinAPIService}
 				setIsAuthorized={setIsAuthorized}
+				jobCoinAddress={jobCoinAddress}
 			/>
 		</div>
 	);
-}
+};
 
 export default App;
