@@ -30,7 +30,7 @@ export const Dashboard = ({
 		[]
 	);
 	const [apiService] = useState<jobcoinAPIService>(
-		new jobcoinAPIService(alertConfig, setAlertConfig)
+		new jobcoinAPIService(setAlertConfig)
 	);
 
 	const [destAddressValue, setDestAddressValue] = useState("");

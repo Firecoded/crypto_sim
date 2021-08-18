@@ -34,4 +34,4 @@ Runs any unit tests, which are located in the `__tests__` folder for this applic
 
 ## Demo
 
-[to be updated](to be updated)
+[https://jobcoin.netlify.app/](https://jobcoin.netlify.app/)

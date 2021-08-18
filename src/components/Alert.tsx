@@ -1,5 +1,5 @@
 import React from "react";
-// If you want the alert to be dismissable and keep the fade animation, then always render and toggle the view with show/ onclose view logic
+
 interface AlertProps {
 	variant: AlertType;
 	show: boolean;

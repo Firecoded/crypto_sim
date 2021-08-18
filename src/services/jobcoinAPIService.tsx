@@ -24,13 +24,8 @@ const ADDRESS_API = `${API_BASE}/addresses`;
 const TRANSACTIONS_API = `${API_BASE}/transactions`;
 
 export class jobcoinAPIService {
-	public alertConfig: IAlertConfig;
 	public setAlertConfig: (alertConfig: IAlertConfig) => void;
-	constructor(
-		alertConfig: IAlertConfig,
-		setAlertConfig: (alertConfig: IAlertConfig) => void
-	) {
-		this.alertConfig = alertConfig;
+	constructor(setAlertConfig: (alertConfig: IAlertConfig) => void) {
 		this.setAlertConfig = setAlertConfig;
 	}
 	public async getAddressInfo(
@@ -64,14 +59,7 @@ export class jobcoinAPIService {
 	public async postTransactions(transactionParams: ITransactionParams) {
 		const config = {
 			headers: {
-				// "Content-Type": "application/json; charset=utf-8",
 				Accept: "application/json",
-				// "Access-Control-Allow-Origin": "*",
-				// "Access-Control-Allow-Methods":
-				// 	"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-				// "Access-Control-Allow-Headers":
-				// 	"Origin, X-Requested-With, Content-Type, Accept",
-				// "Access-Control-Max-Age": "86400",
 			},
 		};
 		try {
