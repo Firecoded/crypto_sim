@@ -18,7 +18,7 @@ interface IAddressInfoResponse {
 	transactions: ITransaction[];
 }
 
-const API_BASE = "http://jobcoin.gemini.com/passport-list/api";
+const API_BASE = "https://jobcoin.gemini.com/passport-list/api";
 const ADDRESS_API = `${API_BASE}/addresses`;
 const TRANSACTIONS_API = `${API_BASE}/transactions`;
 
