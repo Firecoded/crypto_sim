@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BalanceWidget } from "../components/BalanceWidget";
 import { LineChart } from "../components/LineChart";
 import { Nav } from "../components/Nav";
@@ -23,7 +23,7 @@ export const Dashboard = ({
 	const [destAddressValue, setDestAddressValue] = useState("");
 	const [sendAmountValue, setSendAmountValue] = useState("");
 
-	const fetchBalanceDetails = async () => {
+	const fetchBalanceDetails = useCallback(async () => {
 		try {
 			setBalanceIsLoading(true);
 			const details = await apiService.getAddressInfo(jobCoinAddress);
@@ -48,11 +48,11 @@ export const Dashboard = ({
 		} finally {
 			setBalanceIsLoading(false);
 		}
-	};
+	}, [apiService, jobCoinAddress]);
 
 	useEffect(() => {
 		fetchBalanceDetails();
-	}, []);
+	}, [fetchBalanceDetails]);
 
 	const sendTransaction = async () => {
 		try {

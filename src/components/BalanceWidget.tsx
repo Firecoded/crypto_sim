@@ -12,9 +12,11 @@ export const BalanceWidget = ({
 	return (
 		<div className="balance-widget-container d-flex align-items-center flex-column p-4 rounded shadow mb-4">
 			<h3 className="">JobCoin Balance</h3>
-			<h4 className="mt-3 text-muted">
-				{isLoading ? <Loading /> : balance}
-			</h4>
+			{isLoading ? (
+				<Loading />
+			) : (
+				<h4 className="mt-3 text-muted">{balance}</h4>
+			)}
 		</div>
 	);
 };
