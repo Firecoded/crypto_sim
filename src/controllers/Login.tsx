@@ -1,25 +1,21 @@
 import { useState } from "react";
 import { Logo } from "../components/Logo";
 import { SimpleInput } from "../components/SimpleInput";
-import { jobcoinAPIService } from "../services/jobcoinAPIService";
 
 interface ILoginProps {
-	apiService: jobcoinAPIService;
-	handleLogin: () => void;
+	handleLogin: (address: string) => void;
 }
 
-export const Login = ({ apiService, handleLogin }: ILoginProps) => {
-	const [inputValue, setInputValue] = useState("");
+export const Login = ({ handleLogin }: ILoginProps) => {
+	const [inputValue, setInputValue] = useState("test");
 
-	const onLogin = async () => {
-		const a = await apiService.getAddressInfo(inputValue);
-		console.log("test", a);
-		handleLogin();
+	const onLogin = () => {
+		handleLogin(inputValue);
 	};
 	return (
 		<div className="login-page-container d-flex align-items-center flex-column">
 			<Logo height={"400px"} />
-			<div className="login-container p-4 shadow rounded mt-4">
+			<div className="login-container p-4 shadow rounded">
 				<header className="mb-4">
 					<h3 className="text-center">Welcome!</h3>
 					<p className="text-center">
