@@ -6,16 +6,19 @@ const MOCK_PROPS = {
 	showSmallLogo: false,
 };
 
-describe("Balance Widget", () => {
-	test("Renders Large logo", () => {
+const ALT_LARGE = "jobcoin logo large";
+const ALT_SMALL = "jobcoin logo small";
+
+describe("Logo", () => {
+	test("Renders large logo", () => {
 		render(<Logo {...MOCK_PROPS} />);
-		expect(screen.getByAltText("jobcoin logo large")).toBeInTheDocument();
-		expect(screen.queryByAltText("jobcoin logo small")).toBeNull();
+		expect(screen.getByAltText(ALT_LARGE)).toBeInTheDocument();
+		expect(screen.queryByAltText(ALT_SMALL)).toBeNull();
 	});
-	test("Renders spinner, no balance when loading", () => {
+	test("Renders small logo", () => {
 		MOCK_PROPS.showSmallLogo = true;
 		render(<Logo {...MOCK_PROPS} />);
-		expect(screen.getByAltText("jobcoin logo small")).toBeInTheDocument();
-		expect(screen.queryByAltText("jobcoin logo marge")).toBeNull();
+		expect(screen.getByAltText(ALT_SMALL)).toBeInTheDocument();
+		expect(screen.queryByAltText(ALT_LARGE)).toBeNull();
 	});
 });
