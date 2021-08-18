@@ -26,7 +26,7 @@ html,
 
 .login-page-container {
 	height: 100vh;
-	background-color: get-color("background1");
+	background-color: get-color("background3");
 	.login-container {
 		background-color: get-color("background2");
 	}
@@ -36,7 +36,7 @@ html,
 
 .main-nav {
 	height: 80px;
-	display: fixed;
+	position: fixed;
 	background-color: get-color("primary-variant");
 	@include white-text;
 	.fa-sign-out-alt:hover {
@@ -62,4 +62,23 @@ html,
 
 .line-chart-container {
 	background-color: get-color("background2");
+}
+
+/* Alert */
+
+.alert-container {
+	z-index: 1;
+	.alert-info {
+		background: get-color("secondary");
+	}
+	.alert-success {
+		background: get-color("secondary");
+	}
+	.alert-caution {
+		background: get-color("secondary");
+	}
+	.alert-warning {
+		background: get-color("danger");
+		@include white-text;
+	}
 }
