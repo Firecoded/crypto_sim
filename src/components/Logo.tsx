@@ -14,7 +14,7 @@ export const Logo = ({ height, width = "auto", showSmallLogo }: ILogoProps) => {
 				src={logoImgSmall}
 				width={width}
 				height={height}
-				alt="jobcoin logo"
+				alt="jobcoin logo small"
 			/>
 		);
 	}
@@ -23,7 +23,7 @@ export const Logo = ({ height, width = "auto", showSmallLogo }: ILogoProps) => {
 			src={logoImgLarge}
 			width={width}
 			height={height}
-			alt="jobcoin logo"
+			alt="jobcoin logo large"
 		/>
 	);
 };
