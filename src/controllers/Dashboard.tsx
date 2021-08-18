@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { IAlertConfig } from "../components/Alert";
 import { BalanceWidget } from "../components/BalanceWidget";
 import { LineChart } from "../components/LineChart";
 import { Nav } from "../components/Nav";
@@ -6,24 +7,55 @@ import { SendCoinWidget } from "../components/SendCoinWidget";
 import { ITransaction, jobcoinAPIService } from "../services/jobcoinAPIService";
 
 interface IDashboardProps {
-	apiService: jobcoinAPIService;
 	setIsAuthorized: (isAuthorized: boolean) => void;
 	jobCoinAddress: string;
+	alertConfig: IAlertConfig;
+	setAlertConfig: (alertConfig: IAlertConfig) => void;
+}
+
+interface ITransformedTransaction extends ITransaction {
+	balance: string;
+	timestampShort: string;
 }
 
 export const Dashboard = ({
 	setIsAuthorized,
 	jobCoinAddress,
-	apiService,
+	alertConfig,
+	setAlertConfig,
 }: IDashboardProps) => {
 	const [balanceIsLoading, setBalanceIsLoading] = useState(true);
 	const [balance, setBalance] = useState("0.00");
-	const [transactions, setTransactions] = useState<ITransaction[]>([]);
+	const [transactions, setTransactions] = useState<ITransformedTransaction[]>(
+		[]
+	);
+	const [apiService] = useState<jobcoinAPIService>(
+		new jobcoinAPIService(alertConfig, setAlertConfig)
+	);
 
 	const [destAddressValue, setDestAddressValue] = useState("");
 	const [sendAmountValue, setSendAmountValue] = useState("");
 
 	const fetchBalanceDetails = useCallback(async () => {
+		const transformData = (transactionDetails: ITransaction[]) => {
+			let balance = 0;
+			setTransactions(
+				transactionDetails.map((t) => {
+					const ts = new Date(t.timestamp);
+					if (t.fromAddress !== jobCoinAddress) {
+						balance += +t.amount;
+					} else {
+						balance -= +t.amount;
+					}
+					return {
+						...t,
+						timestamp: ts.toDateString(),
+						balance: balance.toString(),
+						timestampShort: `${ts.getMonth() + 1}/${ts.getDate()}`,
+					};
+				})
+			);
+		};
 		try {
 			setBalanceIsLoading(true);
 			const details = await apiService.getAddressInfo(jobCoinAddress);
@@ -32,19 +64,11 @@ export const Dashboard = ({
 					setBalance(details.balance);
 				}
 				if (details.transactions) {
-					setTransactions(
-						details.transactions.map((t) => {
-							const ts = new Date(t.timestamp);
-							return {
-								...t,
-								timestamp: ts.toDateString(),
-							};
-						})
-					);
+					transformData(details.transactions);
 				}
 			}
 		} catch (error) {
-			// add alerting
+			// handled in api service
 		} finally {
 			setBalanceIsLoading(false);
 		}
@@ -63,7 +87,7 @@ export const Dashboard = ({
 			};
 			await apiService.postTransactions(sendParams);
 		} catch (error) {
-			// add alerting
+			// handled in api service
 		} finally {
 			fetchBalanceDetails();
 		}
@@ -73,22 +97,25 @@ export const Dashboard = ({
 		sendTransaction();
 	};
 
-	const buildToolTip = (transaction: ITransaction) => {
+	const buildToolTip = (transaction: ITransformedTransaction) => {
 		const sent = transaction.fromAddress === jobCoinAddress;
+		const buildMessage = () => {
+			if (sent) {
+				return `${transaction.fromAddress} sent ${transaction.amount} JobCoin to ${transaction.toAddress}`;
+			}
+			return `${jobCoinAddress} recieved ${transaction.amount} JobCoin ${
+				transaction.fromAddress ? `from ${transaction.fromAddress}` : ""
+			}`;
+		};
 		return (
 			<div className="card p-3">
 				<div className="card-body p-0 m-0">
-					<h5 className="card-title">{`${
-						sent ? "Sent" : "Recieved"
-					} ${transaction.amount} JobCoin`}</h5>
+					<h5 className="card-title">{`Balance: ${transaction.balance} JobCoin`}</h5>
+
 					<h6 className="card-subtitle text-muted mb-2">
 						{transaction.timestamp}
 					</h6>
-					<p className="card-text">{`${
-						transaction.fromAddress
-							? `From ${transaction.fromAddress} `
-							: ""
-					} To ${transaction.toAddress}`}</p>
+					<p className="card-text">{buildMessage()}</p>
 				</div>
 			</div>
 		);
@@ -96,7 +123,11 @@ export const Dashboard = ({
 
 	return (
 		<div className="dashboards-container">
-			<Nav setIsAuthorized={setIsAuthorized} />
+			<Nav
+				setIsAuthorized={setIsAuthorized}
+				alertConfig={alertConfig}
+				setAlertConfig={setAlertConfig}
+			/>
 			<div className="container">
 				<div className="row">
 					<div className="col-lg-4 col-md-6 col-sm-12">
@@ -124,8 +155,8 @@ export const Dashboard = ({
 										toolTip: buildToolTip(t),
 									};
 								})}
-								xKey={"amount"}
-								yKey={"toAddress"}
+								xKey={"balance"}
+								yKey={"timestampShort"}
 								isLoading={balanceIsLoading}
 								height={600}
 								noDataMessage={
